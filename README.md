@@ -1,7 +1,7 @@
 # LiDAR room scanner
  Projer pour scanner une piece avec un capteur LiDAR
 
-## Représentation de l'espace avec des relevées d'angles horisontales, vertical et la distance
+## Représentation de l'espace avec des relevées d'angles horisontales, verticals et la distance
 ### Formules :
 Soit `h` l'angle horisontal en radian, `v` l'angle vertical en radian, `d` la distance entre le capteur de position `(0,0,0)` et un object.
 
