@@ -90,5 +90,5 @@ mesh_x, mesh_y, mesh_z = data2mesh(data_x, data_y, data_z)
 
 m3d = plt.Mesh3d(x=mesh_x, y=mesh_y, z=mesh_z, i=list(range(0, len(mesh_x), 3)), j=list(range(1, len(mesh_x), 3)), k=list(range(2, len(mesh_x), 3)))
 m = plt.Scatter3d(x=data_x, y=data_y, z=data_z)
-fig = plt.Figure(data=[m3d])
+fig = plt.Figure(data=[m])
 fig.show()
