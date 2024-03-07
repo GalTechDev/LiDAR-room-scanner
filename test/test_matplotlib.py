@@ -13,8 +13,8 @@ def gen_test_data():
             yield (h,v,d)
 
 def data2plot(h, v, d):
-    x = d*np.cos(np.deg2rad(h))
-    y = d*np.sin(np.deg2rad(h))
+    x = d*np.cos(np.deg2rad(h))*np.cos(np.deg2rad(v))
+    y = d*np.sin(np.deg2rad(h))*np.cos(np.deg2rad(v))
     z = d*np.sin(np.deg2rad(v))
 
     return ([x], [y], [z])
@@ -29,7 +29,6 @@ plt.axis('on')
 
 for h, v, d in gen_test_data():
     data = data2plot(h, v, d)
-    print(data)
     ax.scatter(*data, marker="o")
 
 plt.show()
