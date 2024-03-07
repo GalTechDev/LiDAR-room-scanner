@@ -19,16 +19,16 @@ def data2plot(h, v, d):
 
     return ([x], [y], [z])
 
+if __name__ == "__main__":
+    axes = [5, 5, 5]
+    data = np.ones(axes)
 
-axes = [5, 5, 5]
-data = np.ones(axes)
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    plt.axis('on')
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-plt.axis('on')
+    for h, v, d in gen_test_data():
+        data = data2plot(h, v, d)
+        ax.scatter(*data, marker="o")
 
-for h, v, d in gen_test_data():
-    data = data2plot(h, v, d)
-    ax.scatter(*data, marker="o")
-
-plt.show()
+    plt.show()

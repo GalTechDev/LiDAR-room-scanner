@@ -10,6 +10,9 @@ Un point `P` de coordonés `(x, y, z)` avec :
 - y = d.sin(h).cos(v)
 - z = d.sin(v)
 
+### Exemple (dash) :
+![Screenshot](test/test%20dash.png)
+
 ### Exemple (plotly) :
 #### 3D plot
 ![Screenshot](test/test%20plotly%203D%20plot.png)

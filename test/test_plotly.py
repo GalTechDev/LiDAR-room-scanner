@@ -5,20 +5,6 @@ import random
 #Visualisation très performente sur de nombreux points
 #Interface web
 
-res = 2
-d = 1
-
-min_h = 0
-max_h = 360
-
-min_v = 0
-max_v = 90 + res
-
-def gen_test_data():
-    for h in range(min_h, max_h, res):
-        for v in range(min_v, max_v+res, res):
-            yield (h,v, random.randint(1,1))
-
 def data2plot(h, v, d):
     x = d*np.cos(np.deg2rad(h))*np.cos(np.deg2rad(v))
     y = d*np.sin(np.deg2rad(h))*np.cos(np.deg2rad(v))
@@ -26,7 +12,7 @@ def data2plot(h, v, d):
 
     return (x, y, z)
 
-def data2mesh(data_x, data_y, data_z):
+def data2mesh(data_x, data_y, data_z, min_h, max_h, min_v, max_v, res):
     mesh_x = [] #[[], [], ] list of list of vertical data
     mesh_y = []
     mesh_z = []
@@ -76,19 +62,47 @@ def data2mesh(data_x, data_y, data_z):
 
     return mesh_x, mesh_y, mesh_z
 
-data_x = []
-data_y = []
-data_z = []
 
-for h, v, d in gen_test_data():
-    x, y, z = data2plot(h, v, d)
-    data_x.append(x)
-    data_y.append(y)
-    data_z.append(z)
+#test
+def gen_test_data(min_h, max_h, min_v, max_v, res):
+    for h in range(min_h, max_h, res):
+        for v in range(min_v, max_v+res, res):
+            yield (h,v, 1)
 
-mesh_x, mesh_y, mesh_z = data2mesh(data_x, data_y, data_z)
+def get_test_data(min_h, max_h, min_v, max_v, res):
+    data_x = []
+    data_y = []
+    data_z = []
 
-m3d = plt.Mesh3d(x=mesh_x, y=mesh_y, z=mesh_z, i=list(range(0, len(mesh_x), 3)), j=list(range(1, len(mesh_x), 3)), k=list(range(2, len(mesh_x), 3)))
-m = plt.Scatter3d(x=data_x, y=data_y, z=data_z)
-fig = plt.Figure(data=[m])
-fig.show()
+    for h, v, d in gen_test_data(min_h, max_h, min_v, max_v, res):
+        x, y, z = data2plot(h, v, d)
+        data_x.append(x)
+        data_y.append(y)
+        data_z.append(z)
+    return data_x, data_y, data_z
+
+def get_test_fig(fig_type, res, min_h, max_h, min_v, max_v):
+    """
+    type : "plot" or "mesh"
+    """
+    max_v += res
+
+    data_x, data_y, data_z = get_test_data(min_h, max_h, min_v, max_v, res)
+    mesh_x, mesh_y, mesh_z = data2mesh(data_x, data_y, data_z, min_h, max_h, min_v, max_v, res)
+
+    m3d = plt.Mesh3d(x=mesh_x, y=mesh_y, z=mesh_z, i=list(range(0, len(mesh_x), 3)), j=list(range(1, len(mesh_x), 3)), k=list(range(2, len(mesh_x), 3)))
+    m = plt.Scatter3d(x=data_x, y=data_y, z=data_z)
+    if fig_type == "plot":
+        data = m
+    elif fig_type == "mesh":
+        data = m3d
+    else:
+        raise Exception("fig_type unreconised")
+    
+    fig = plt.Figure(data=data)
+    fig.update_scenes(xaxis_visible=False, yaxis_visible=False,zaxis_visible=False)
+    return fig
+
+if __name__ == "__main__":
+    fig = get_test_fig("mesh", 1,0,360,-45,90)
+    fig.show()
