@@ -1,4 +1,4 @@
-from dash import Dash, html, dcc, callback, Output, Input
+from dash import register_page, Dash, html, dcc, callback, Output, Input
 import plotly.graph_objects as plt
 import test
 
@@ -29,9 +29,7 @@ def get_Div_parameters(resolution):
         }),
     ]
 
-app = Dash(__name__)
-
-app.layout = html.Div([
+layout = html.Div([
     html.H1(children="LiDAR 3D view test", style={"textAlign":"center"}),
     html.Div(get_Div_parameters(1), id="div-range-slider"),
     html.H3(children="Resolution (step)"),
@@ -65,4 +63,8 @@ def update_parameters(value):
     return get_Div_parameters(value)
 
 if __name__ == "__main__":
+    app = Dash(__name__)
+    app.layout = layout
     app.run(debug=True)
+else:
+    register_page(__name__, path=f'/live')
