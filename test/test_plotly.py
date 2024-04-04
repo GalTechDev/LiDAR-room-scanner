@@ -1,6 +1,5 @@
 import plotly.graph_objects as plt
 import numpy as np
-import random
 
 #Visualisation très performente sur de nombreux points
 #Interface web
@@ -89,7 +88,7 @@ def get_test_fig(fig_type, res, min_h, max_h, min_v, max_v):
 
     data_x, data_y, data_z = get_test_data(min_h, max_h, min_v, max_v, res)
     mesh_x, mesh_y, mesh_z = data2mesh(data_x, data_y, data_z, min_h, max_h, min_v, max_v, res)
-
+    get_test_obj(mesh_x, mesh_y, mesh_z)
     m3d = plt.Mesh3d(x=mesh_x, y=mesh_y, z=mesh_z, i=list(range(0, len(mesh_x), 3)), j=list(range(1, len(mesh_x), 3)), k=list(range(2, len(mesh_x), 3)))
     m = plt.Scatter3d(x=data_x, y=data_y, z=data_z)
     if fig_type == "plot":
@@ -103,6 +102,23 @@ def get_test_fig(fig_type, res, min_h, max_h, min_v, max_v):
     fig.update_scenes(xaxis_visible=False, yaxis_visible=False,zaxis_visible=False)
     return fig
 
+def get_test_obj(mesh_x, mesh_y, mesh_z, filename="test.obj"):
+    i_list=list(range(1, len(mesh_x)+1, 3))
+    j_list=list(range(2, len(mesh_x)+1, 3))
+    k_list=list(range(3, len(mesh_x)+1, 3))
+    obj = ""
+    for x,y,z in list(zip(mesh_x, mesh_y, mesh_z)):
+        obj+=f"v  {x} {y} {z}\n"
+    for i,j,k in list(zip(i_list, j_list, k_list)):
+        pass
+        obj+=f"f  {i} {j} {k}\n"
+    with open(filename, "w") as f:
+        f.write(obj)
+
+    
+
+    
+
 if __name__ == "__main__":
     fig = get_test_fig("mesh", 1,0,360,-45,90)
-    fig.show()
+    #fig.show()

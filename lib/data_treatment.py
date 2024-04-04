@@ -30,13 +30,13 @@ def data2mesh(data_x, data_y, data_z, min_h, max_h, min_v, max_v, res):
                     (mesh_x[hi][vi+1], mesh_y[hi][vi+1], mesh_z[hi][vi+1])
                 ))
             
-            if hi == 0:
+            """if hi == 0:
                 triangles.append(
                 (
                     (mesh_x[hi][vi], mesh_y[hi][vi], mesh_z[hi][vi]), 
                     (mesh_x[hi-1][vi], mesh_y[hi-1][vi], mesh_z[hi-1][vi]), 
                     (mesh_x[hi-1][vi+1], mesh_y[hi-1][vi+1], mesh_z[hi-1][vi+1])
-                ))
+                ))"""
             
     for hi in range(0, (max_h-min_h)//res):
         for vi in range(1, (max_v-min_v)//res):
