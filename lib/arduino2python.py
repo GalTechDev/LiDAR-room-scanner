@@ -71,17 +71,15 @@ class Arduino:
             while True:
                 try:
                     b_reponse = self.arduino.readline()
-                    print(b_reponse)
                     reponse = b_reponse.decode().strip()
                     if reponse == "CAPTURE":
                         self.status = SCANNING
                         self.thread = Thread(target=Arduino.get_data_thread, args=[self])
-                        self.thread.run()
-                        print("running")
+                        self.thread.start()
                         return
                     else:
                         self.arduino.write(commande_a_envoyer.encode())
-                        print(reponse)
+
                 except ValueError as e:
                     print("Erreur lors de la communication")
                     print(e)
@@ -101,7 +99,7 @@ class FakeArduino(Arduino):
 if __name__ == "__main__":
     while True:
         print(get_connected_port())
-        arduino = Arduino(get_connected_port()[0])
+        arduino = Arduino(get_connected_port()[int(input())])
         arduino.start(0.0, 360.0,0.0,90.0,5.0)
         while True:
             print("\nnew get")
