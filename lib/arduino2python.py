@@ -14,6 +14,13 @@ def get_connected_port():
    
 
 class Arduino:
+    gen_parameter = {
+        "res":None,
+        "min_h":None,
+        "max_h":None,
+        "min_v":None,
+        "max_v":None,
+    }
     def __init__(self, port, baudrate=115200) -> None:
         self.port = port
         self.baudrate = baudrate
@@ -24,13 +31,6 @@ class Arduino:
         self.data_z = []
 
         self.status = WAITING
-        self.gen_parameter = {
-            "res":None,
-            "min_h":None,
-            "max_h":None,
-            "min_v":None,
-            "max_v":None,
-        }
         self.thread = None
 
     def set_gen_parameter(self, h_value, v_value, res):
@@ -63,9 +63,12 @@ class Arduino:
                 print("Pas de données reçues de l'Arduino")
         self.status = WAITING
 
-    def start(self, min_h:float, max_h: float, min_v:float, max_v:float, res: int):
+    def start(self, min_h: float, max_h: float, min_v: float, max_v: float, res: int):
+        if None in [min_h, max_h, min_v, max_v, res]:
+            print("Error on parametters")
+            print(min_h, max_h, min_v, max_v, res)
+            return
         if self.status == WAITING:
-            
             commande_a_envoyer = f"START;{min_h};{max_h};{min_v};{max_v};{res}"
             self.arduino.write(commande_a_envoyer.encode())
             while True:
