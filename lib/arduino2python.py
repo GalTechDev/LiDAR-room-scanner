@@ -1,6 +1,7 @@
-﻿from serial.tools import list_ports
+from serial.tools import list_ports
 from serial.tools.list_ports_common import ListPortInfo
 from serial import Serial
+from .data_treatment import data2plot
 import time
 from threading import Thread
 
@@ -52,9 +53,10 @@ class Arduino:
                 data = raw_data.split(';')
                 if len(data) == 3:
                     try:
-                        self.data_x.append(float(data[0]))
-                        self.data_y.append(float(data[1]))
-                        self.data_z.append(float(data[2]))
+                        x,y,z = data2plot(float(data[0]),float(data[1]),float(data[2]))
+                        self.data_x.append(x)
+                        self.data_y.append(y)
+                        self.data_z.append(z)
                     except ValueError:
                         print("Erreur lors de la conversion des valeurs en float")
                 else:
